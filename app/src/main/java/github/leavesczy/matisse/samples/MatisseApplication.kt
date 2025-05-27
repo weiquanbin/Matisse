@@ -1,6 +1,7 @@
 package github.leavesczy.matisse.samples
 
 import android.app.Application
+import android.content.Context
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import coil3.ImageLoader
@@ -10,6 +11,8 @@ import coil3.gif.GifDecoder
 import coil3.request.allowHardware
 import coil3.request.crossfade
 import coil3.video.VideoFrameDecoder
+import coil3.request.allowHardware
+import coil3.request.crossfade
 
 /**
  * @Author: leavesCZY

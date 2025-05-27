@@ -135,3 +135,41 @@ class CoilImageEngine : ImageEngine {
     }
 
 }
+
+@Parcelize
+class Coil3ImageEngine : ImageEngine {
+
+    @Composable
+    override fun Thumbnail(mediaResource: MediaResource) {
+        coil3.compose.AsyncImage(
+            modifier = Modifier
+                .fillMaxSize(),
+            model = mediaResource.uri,
+            contentScale = ContentScale.Crop,
+            contentDescription = mediaResource.name
+        )
+    }
+
+    @Composable
+    override fun Image(mediaResource: MediaResource) {
+        if (mediaResource.isVideo) {
+            coil3.compose.AsyncImage(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                model = mediaResource.uri,
+                contentScale = ContentScale.FillWidth,
+                contentDescription = mediaResource.name
+            )
+        } else {
+            coil3.compose.AsyncImage(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(state = rememberScrollState()),
+                model = mediaResource.uri,
+                contentScale = ContentScale.FillWidth,
+                contentDescription = mediaResource.name
+            )
+        }
+    }
+
+}

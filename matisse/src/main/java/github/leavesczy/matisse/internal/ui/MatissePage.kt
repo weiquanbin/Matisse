@@ -1,5 +1,6 @@
 package github.leavesczy.matisse.internal.ui
 
+import android.media.browse.MediaBrowser.MediaItem
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
@@ -53,7 +54,8 @@ internal fun MatissePage(
     bottomBarViewState: MatisseBottomBarViewState,
     onRequestTakePicture: () -> Unit,
     onClickSure: () -> Unit,
-    selectMediaInFastSelectMode: (MediaResource) -> Unit
+    selectMediaInFastSelectMode: (MediaResource) -> Unit,
+    customContent: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
         modifier = Modifier
@@ -131,11 +133,15 @@ internal fun MatissePage(
                         mediaResource = it,
                         imageEngine = pageViewState.imageEngine,
                         onClickMedia = pageViewState.onClickMedia,
-                        onClickCheckBox = pageViewState.onMediaCheckChanged
+                        onClickCheckBox = pageViewState.onMediaCheckChanged,
+                        maxSelectable = pageViewState.maxSelectable
                     )
                 }
             }
         }
+
+        customContent(innerPadding)
+
     }
 }
 
@@ -146,6 +152,7 @@ private fun CaptureItem(
 ) {
     Box(
         modifier = modifier
+            .padding(all = 1.dp)
             .aspectRatio(ratio = 1f)
             .clip(shape = RoundedCornerShape(size = 4.dp))
             .background(color = colorResource(id = R.color.matisse_capture_item_background_color))
@@ -168,10 +175,12 @@ private fun MediaItem(
     mediaResource: MatisseMediaExtend,
     imageEngine: ImageEngine,
     onClickMedia: (MatisseMediaExtend) -> Unit,
-    onClickCheckBox: (MatisseMediaExtend) -> Unit
+    onClickCheckBox: (MatisseMediaExtend) -> Unit,
+    maxSelectable: Int
 ) {
     Box(
         modifier = modifier
+            .padding(all = 1.dp)
             .aspectRatio(ratio = 1f)
             .background(color = colorResource(id = R.color.matisse_media_item_background_color))
             .clickable {
@@ -207,14 +216,27 @@ private fun MediaItem(
                 },
             contentAlignment = Alignment.Center
         ) {
-            MatisseCheckbox(
-                modifier = Modifier
-                    .fillMaxSize(fraction = 0.68f),
-                selectState = mediaResource.selectState.value,
-                onClick = {
-                    onClickCheckBox(mediaResource)
-                }
-            )
+            if (maxSelectable == 1) {
+                MatisseMax1Checkbox(
+                    modifier = Modifier
+                        .align(alignment = Alignment.TopEnd)
+                        .padding(all = 5.dp),
+                    checked = mediaResource.selectState.value.isSelected,
+                    enabled = mediaResource.selectState.value.isEnabled,
+                    onClick = {
+                        onClickCheckBox(mediaResource)
+                    }
+                )
+            } else {
+                MatisseCheckbox(
+                    modifier = Modifier
+                        .fillMaxSize(fraction = 0.68f),
+                    selectState = mediaResource.selectState.value,
+                    onClick = {
+                        onClickCheckBox(mediaResource)
+                    }
+                )
+            }
         }
     }
 }
