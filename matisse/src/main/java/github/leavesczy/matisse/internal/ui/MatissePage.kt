@@ -104,7 +104,7 @@ internal fun MatissePage(
                 ) {
                     CaptureItem(
                         modifier = Modifier
-                            .customAnimateItem(lazyGridItemScope = this),
+                            .matisseAnimateItem(lazyGridItemScope = this),
                         onClick = onRequestTakePicture
                     )
                 }
@@ -121,7 +121,7 @@ internal fun MatissePage(
                 if (pageViewState.fastSelect) {
                     MediaItemFastSelect(
                         modifier = Modifier
-                            .customAnimateItem(lazyGridItemScope = this),
+                            .matisseAnimateItem(lazyGridItemScope = this),
                         mediaResource = it.media,
                         imageEngine = pageViewState.imageEngine,
                         onClickMedia = selectMediaInFastSelectMode
@@ -129,7 +129,7 @@ internal fun MatissePage(
                 } else {
                     MediaItem(
                         modifier = Modifier
-                            .customAnimateItem(lazyGridItemScope = this),
+                            .matisseAnimateItem(lazyGridItemScope = this),
                         mediaResource = it,
                         imageEngine = pageViewState.imageEngine,
                         onClickMedia = pageViewState.onClickMedia,
@@ -287,8 +287,8 @@ internal fun VideoIcon(modifier: Modifier) {
 }
 
 @Stable
-private fun Modifier.customAnimateItem(lazyGridItemScope: LazyGridItemScope): Modifier {
-    return with(lazyGridItemScope) {
+private fun Modifier.matisseAnimateItem(lazyGridItemScope: LazyGridItemScope): Modifier {
+    return with(receiver = lazyGridItemScope) {
         animateItem(
             fadeInSpec = spring(stiffness = Spring.StiffnessMedium),
             fadeOutSpec = spring(stiffness = Spring.StiffnessMedium),
