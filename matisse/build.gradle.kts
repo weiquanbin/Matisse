@@ -25,6 +25,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     compileOnly(libs.coil.compose)
     compileOnly(libs.glide.compose)
+
 }
 
 publishing {
