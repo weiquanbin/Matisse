@@ -1,38 +1,19 @@
 package github.leavesczy.matisse
 
 import com.android.build.gradle.LibraryExtension
-import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.assign
-import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.kotlin.dsl.configure
+import java.io.File
 
 /**
  * @Author: leavesCZY
- * @Date: 2024/2/21 17:53
+ * @Date: 2025/9/12 16:20
  * @Desc:
  */
-internal fun Project.configureAndroidLibrary(commonExtension: LibraryExtension) {
-    commonExtension.apply {
-        compileSdk = 35
+internal fun Project.configureAndroidLibrary() {
+    extensions.configure<LibraryExtension> {
         defaultConfig {
-            minSdk = 21
-        }
-        buildFeatures {
-            buildConfig = false
-        }
-        lint {
-            checkDependencies = true
-        }
-        compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_11
-            targetCompatibility = JavaVersion.VERSION_11
-        }
-    }
-    tasks.withType<KotlinCompile>().configureEach {
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_11
+            consumerProguardFiles.add(File("consumer-rules.pro"))
         }
     }
 }

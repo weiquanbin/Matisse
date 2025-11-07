@@ -182,7 +182,6 @@ private fun MediaItem(
         modifier = modifier
             .padding(all = 1.dp)
             .aspectRatio(ratio = 1f)
-            .background(color = colorResource(id = R.color.matisse_media_item_background_color))
             .clickable {
                 onClickMedia(mediaResource)
             },
@@ -251,7 +250,6 @@ private fun MediaItemFastSelect(
     Box(
         modifier = modifier
             .aspectRatio(ratio = 1f)
-            .background(color = colorResource(id = R.color.matisse_media_item_background_color))
             .clickable {
                 onClickMedia(mediaResource)
             },

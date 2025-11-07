@@ -1,8 +1,8 @@
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import github.leavesczy.matisse.configureAndroidApplication
+import github.leavesczy.matisse.configureAndroidProject
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.apply
 
 /**
  * @Author: leavesCZY
@@ -12,15 +12,12 @@ import org.gradle.kotlin.dsl.configure
 class ApplicationConventionPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
-        with(target) {
-            with(pluginManager) {
-                apply("com.android.application")
-                apply("org.jetbrains.kotlin.android")
-                apply("org.jetbrains.kotlin.plugin.parcelize")
-            }
-            extensions.configure<BaseAppModuleExtension> {
-                configureAndroidApplication(commonExtension = this)
-            }
+        with(receiver = target) {
+            apply(plugin = "com.android.application")
+            apply(plugin = "org.jetbrains.kotlin.android")
+            apply(plugin = "org.jetbrains.kotlin.plugin.parcelize")
+            configureAndroidApplication()
+            configureAndroidProject()
         }
     }
 
