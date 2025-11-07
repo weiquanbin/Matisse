@@ -32,7 +32,7 @@ publishing {
         create<MavenPublication>("release") {
             groupId = "com.yishi"
             artifactId = "matisse"
-            version = "0.0.13"
+            version = "0.0.14"
             afterEvaluate {
                 from(components["release"])
             }
@@ -40,19 +40,9 @@ publishing {
         create<MavenPublication>("debug") {
             groupId = "com.yishi"
             artifactId = "matisse"
-            version = "0.0.13"
+            version = "0.0.14"
             afterEvaluate {
                 from(components["debug"])
-            }
-        }
-    }
-    repositories {
-        maven {
-            isAllowInsecureProtocol = true
-            url = uri("http://192.168.10.234:8081/repository/android-maven-sdk/")
-            credentials {
-                username = "android"
-                password = "android123"
             }
         }
     }

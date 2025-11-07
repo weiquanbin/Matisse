@@ -1,9 +1,7 @@
 package github.leavesczy.matisse
 
-import android.net.Uri
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
@@ -16,8 +14,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
-import com.bumptech.glide.integration.compose.GlideSubcomposition
-import com.bumptech.glide.integration.compose.RequestState
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -33,29 +29,27 @@ class GlideImageEngine : ImageEngine {
         GlideComposeImage(
             modifier = Modifier
                 .fillMaxSize(),
-            model = mediaResource.uri,
-            contentScale = ContentScale.Crop
+            model = mediaResource.uri
         )
     }
 
     @Composable
     override fun Image(mediaResource: MediaResource) {
         if (mediaResource.isVideo) {
-            GlideComposeImage(
+            GlideImage(
                 modifier = Modifier
                     .fillMaxWidth(),
                 model = mediaResource.uri,
                 contentScale = ContentScale.FillWidth,
-                contentDescription = null,
-                contentScale = ContentScale.FillWidth
+                contentDescription = null
             )
         } else {
-            GlideComposeImage(
+            GlideImage(
                 modifier = Modifier
                     .fillMaxWidth()
                     .verticalScroll(state = rememberScrollState()),
                 model = mediaResource.uri,
-                contentScale = ContentScale.FillWidth,
+                contentScale = ContentScale.Fit,
                 contentDescription = null
             )
         }
@@ -66,39 +60,30 @@ class GlideImageEngine : ImageEngine {
 @Composable
 private fun GlideComposeImage(
     modifier: Modifier,
-    model: Uri,
-    contentScale: ContentScale = ContentScale.Crop,
+    model: Any,
     alignment: Alignment = Alignment.Center,
-    backgroundColor: Color? = colorResource(id = R.color.matisse_media_item_background_color)
+    contentScale: ContentScale = ContentScale.Crop,
+    backgroundColor: Color = colorResource(id = R.color.matisse_media_item_background_color)
 ) {
     GlideImage(
         modifier = modifier,
         model = model,
         contentScale = contentScale,
         alignment = alignment,
-        loading = if (backgroundColor != null) {
-            placeholder {
-                Placeholder(backgroundColor = backgroundColor)
-            }
-        } else {
-            null
+        loading = placeholder {
+            Spacer(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(backgroundColor),
+            )
         },
-        failure = if (backgroundColor != null) {
-            placeholder {
-                Placeholder(backgroundColor = backgroundColor)
-            }
-        } else {
-            null
+        failure = placeholder {
+            Spacer(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(backgroundColor),
+            )
         },
         contentDescription = null
-    )
-}
-
-@Composable
-private fun Placeholder(backgroundColor: Color) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = backgroundColor)
     )
 }
