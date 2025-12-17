@@ -22,8 +22,6 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-pl
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin-plugin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin-plugin" }
 
-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish-plugin" }
-
 matisse-android-application = { id = "matisse.android.application" }
 matisse-android-library = { id = "matisse.android.library" }
 matisse-android-compose = { id = "matisse.android.compose" }

@@ -44,6 +44,7 @@ internal abstract class BaseCaptureActivity : AppCompatActivity() {
 
     private val requestCameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            showCameraPermissionDialog.value = false
             if (granted) {
                 takePicture()
             } else {
