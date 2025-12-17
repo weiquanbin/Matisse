@@ -25,7 +25,6 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     compileOnly(libs.coil.compose)
     compileOnly(libs.glide.compose)
-
 }
 
 publishing {
@@ -33,7 +32,7 @@ publishing {
         create<MavenPublication>("release") {
             groupId = "com.yishi"
             artifactId = "matisse"
-            version = "0.0.14"
+            version = "0.0.14.1"
             afterEvaluate {
                 from(components["release"])
             }
@@ -41,10 +40,11 @@ publishing {
         create<MavenPublication>("debug") {
             groupId = "com.yishi"
             artifactId = "matisse"
-            version = "0.0.14"
+            version = "0.0.14.1"
             afterEvaluate {
                 from(components["debug"])
             }
         }
     }
+
 }

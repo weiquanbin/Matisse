@@ -15,4 +15,6 @@
     <string name="matisse_preview">预览</string>
     <string name="matisse_sure">确定</string>
     <string name="matisse_back">返回</string>
+    <string name="dialog_permission_camera">相机权限</string>
+    <string name="dialog_permission_camera_content">%s想要申请相机权限，用于拍摄图片或视频</string>
 </resources>

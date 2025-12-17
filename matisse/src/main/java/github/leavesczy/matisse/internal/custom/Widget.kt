@@ -146,5 +146,48 @@ fun PermissionAbout(
 }
 
 
+@Composable
+fun CameraPermissionShow(isShow: Boolean, onDismissPermissionDialog: () -> Unit) {
+    if (isShow) {
+        Dialog(
+            onDismissRequest = onDismissPermissionDialog,
+            properties = DialogProperties(usePlatformDefaultWidth = false)
+        ) {
+            Box(
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .fillMaxHeight(),
+                contentAlignment = Alignment.TopCenter
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(12.dp)
+                        .background(Color.White, RoundedCornerShape(16.dp))
+                        .padding(12.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.dialog_permission_camera),
+                        color = Color.Black,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = String.format(
+                            stringResource(R.string.dialog_permission_camera_content),
+                            stringResource(id = R.string.app_name)
+                        ),
+                        color = Color.Black,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.SemiBold
+
+                    )
+                }
+            }
+        }
+    }
+
+}
+
+
 
 

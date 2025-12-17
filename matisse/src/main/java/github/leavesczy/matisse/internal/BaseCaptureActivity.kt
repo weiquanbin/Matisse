@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import github.leavesczy.matisse.CaptureStrategy
@@ -28,6 +30,7 @@ import kotlinx.coroutines.withContext
 internal abstract class BaseCaptureActivity : AppCompatActivity() {
 
     protected abstract val captureStrategy: CaptureStrategy
+    val showCameraPermissionDialog: MutableState<Boolean> = mutableStateOf(false)
 
     private val requestWriteExternalStoragePermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -75,6 +78,7 @@ internal abstract class BaseCaptureActivity : AppCompatActivity() {
                 permission = cameraPermission
             )
             if (requirePermissionToTakePhotos) {
+                showCameraPermissionDialog.value = true
                 requestCameraPermissionLauncher.launch(cameraPermission)
             } else {
                 takePicture()

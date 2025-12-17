@@ -18,4 +18,6 @@
     <string name="matisse_back">Back</string>
     <string name="matisse_limit_the_number_of_image" translatable="false">最多只能选择 %d 张图片 ~</string>
     <string name="matisse_limit_the_number_of_video" translatable="false">最多只能选择 %d 个视频 ~</string>
+    <string name="dialog_permission_camera">相机权限</string>
+    <string name="dialog_permission_camera_content">%s想要申请相机权限，用于拍摄图片或视频</string>
 </resources>

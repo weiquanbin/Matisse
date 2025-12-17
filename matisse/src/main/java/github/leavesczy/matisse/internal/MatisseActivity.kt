@@ -9,7 +9,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -26,6 +25,7 @@ import github.leavesczy.matisse.CaptureStrategy
 import github.leavesczy.matisse.Matisse
 import github.leavesczy.matisse.MediaResource
 import github.leavesczy.matisse.R
+import github.leavesczy.matisse.internal.custom.CameraPermissionShow
 import github.leavesczy.matisse.internal.custom.PermissionAbout
 import github.leavesczy.matisse.internal.custom.SettingsActivityResultContract
 import github.leavesczy.matisse.internal.custom.checkPermissionCustom
@@ -126,6 +126,12 @@ internal class MatisseActivity : BaseCaptureActivity() {
                             },
                             onDismissPermissionDialog = {
                                 showPermissionDialog.value = false
+                            }
+                        )
+                        CameraPermissionShow(
+                            isShow = showCameraPermissionDialog.value,
+                            onDismissPermissionDialog = {
+                                showCameraPermissionDialog.value = false
                             }
                         )
                     }
