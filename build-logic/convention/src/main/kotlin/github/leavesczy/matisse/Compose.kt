@@ -1,9 +1,8 @@
 package github.leavesczy.matisse
 
-import com.android.build.api.dsl.ApplicationExtension
-import com.android.build.gradle.LibraryExtension
+import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.findByType
+import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -12,22 +11,38 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
  * @Date: 2024/2/21 17:51
  * @Desc:
  */
-internal fun Project.configureCompose() {
-    val commonExtension =
-        extensions.findByType<ApplicationExtension>() ?: extensions.findByType<LibraryExtension>()!!
+internal fun Project.configureCompose(commonExtension: CommonExtension) {
     commonExtension.apply {
-        buildFeatures {
+        buildFeatures.apply {
             compose = true
         }
-        tasks.withType<KotlinCompile>().configureEach {
-            compilerOptions {
-                optIn.set(
-                    setOf(
-                        "androidx.compose.foundation.layout.ExperimentalLayoutApi",
-                        "com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi"
-                    )
+        dependencies {
+            val composeBom = libs.findLibrary("androidx-compose-bom").get()
+            val composeBomPlatform = platform(composeBom)
+            add("implementation", composeBomPlatform)
+            add("androidTestImplementation", composeBomPlatform)
+            add("implementation", libs.findLibrary("androidx-compose-ui").get())
+            add("implementation", libs.findLibrary("androidx-compose-ui-util").get())
+            add("debugImplementation", libs.findLibrary("androidx-compose-ui-tooling").get())
+            add("implementation", libs.findLibrary("androidx-compose-ui-tooling-preview").get())
+            add("androidTestImplementation", libs.findLibrary("androidx-compose-ui-test").get())
+            add("debugImplementation", libs.findLibrary("androidx-compose-ui-test-manifest").get())
+            add("implementation", libs.findLibrary("androidx-compose-foundation").get())
+            add("implementation", libs.findLibrary("androidx-compose-material3").get())
+            add(
+                "implementation",
+                libs.findLibrary("androidx-compose-material-icons-extended").get()
+            )
+        }
+    }
+    tasks.withType<KotlinCompile>().configureEach {
+        compilerOptions {
+            optIn.set(
+                setOf(
+                    "androidx.compose.foundation.layout.ExperimentalLayoutApi",
+                    "com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi"
                 )
-            }
+            )
         }
     }
 }

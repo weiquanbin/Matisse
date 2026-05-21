@@ -1,42 +1,39 @@
 package github.leavesczy.matisse
 
-import com.android.build.gradle.internal.api.ApkVariantOutputImpl
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
+import com.android.build.api.dsl.ApplicationExtension
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
+import org.gradle.api.plugins.BasePluginExtension
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
-import java.util.TimeZone
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 /**
  * @Author: leavesCZY
  * @Date: 2024/2/21 17:46
  * @Desc:
  */
-internal fun Project.configureAndroidApplication() {
-    configure<BaseAppModuleExtension> {
+internal fun Project.configureAndroidApplication(commonExtension: ApplicationExtension) {
+    commonExtension.apply {
         defaultConfig {
             applicationId = "github.leavesczy.matisse.samples"
-            targetSdk = 36
+            targetSdk {
+                version = release(version = 36)
+            }
             versionCode = 1
             versionName = "1.0.0"
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
             vectorDrawables {
                 useSupportLibrary = true
             }
-            applicationVariants.all {
-                outputs.all {
-                    if (this is ApkVariantOutputImpl) {
-                        this.outputFileName = "matisse_${getApkBuildTime()}.apk"
-                    }
-                }
-            }
+        }
+        val basePluginExtension = project.extensions.getByType(BasePluginExtension::class.java)
+        basePluginExtension.apply {
+            archivesName.set("Matisse_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${getApkBuildTime()}")
         }
         signingConfigs {
             create("release") {
-                storeFile = File(rootDir.absolutePath, "key.jks")
+                storeFile = File(rootDir, "key.jks")
                 keyAlias = "leavesCZY"
                 keyPassword = "123456"
                 storePassword = "123456"
@@ -77,11 +74,15 @@ internal fun Project.configureAndroidApplication() {
                     "**/*.md",
                     "**/*.version",
                     "**/*.properties",
-                    "**/**/*.properties",
-                    "META-INF/{AL2.0,LGPL2.1}",
-                    "META-INF/CHANGES",
-                    "DebugProbesKt.bin",
-                    "kotlin-tooling-metadata.json"
+                    "**/*.kotlin_module",
+                    "**/CHANGES",
+                    "**/LICENSE.txt",
+                    "**/{AL2.0,LGPL2.1}",
+                    "**/DebugProbesKt.bin",
+                    "**/app-metadata.properties",
+                    "**/kotlin-tooling-metadata.json",
+                    "**/version-control-info.textproto",
+                    "**/androidsupportmultidexversion.txt"
                 )
             }
         }
@@ -89,8 +90,7 @@ internal fun Project.configureAndroidApplication() {
 }
 
 private fun getApkBuildTime(): String {
-    val simpleDateFormat = SimpleDateFormat("yyyyMMddHHmmss", Locale.US)
-    simpleDateFormat.timeZone = TimeZone.getTimeZone("Asia/Shanghai")
-    val time = Calendar.getInstance().time
-    return simpleDateFormat.format(time)
+    val now = ZonedDateTime.now(ZoneId.of("Asia/Shanghai"))
+    val formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")
+    return now.format(formatter)
 }

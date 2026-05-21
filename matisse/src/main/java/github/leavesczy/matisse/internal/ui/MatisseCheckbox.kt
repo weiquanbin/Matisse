@@ -30,7 +30,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import github.leavesczy.matisse.R
@@ -62,7 +61,7 @@ internal fun MatisseCheckbox(
                             .background(color = colorResource(id = R.color.matisse_check_box_circle_fill_color))
                     } else {
                         Modifier
-                            .background(color = Color(0x1A000000))
+                            .background(color = colorResource(id = R.color.matisse_check_box_circle_fill_color_if_unselected))
                             .border(
                                 width = 1.dp,
                                 shape = CircleShape,
@@ -80,16 +79,12 @@ internal fun MatisseCheckbox(
         val positionFormatted = selectState.positionFormatted
         if (!positionFormatted.isNullOrBlank()) {
             BasicText(
-                modifier = Modifier
-                    .matchParentSize()
-                    .wrapContentSize(align = Alignment.Center),
+                modifier = Modifier,
                 text = positionFormatted,
-                maxLines = 1,
-                overflow = TextOverflow.Clip,
                 autoSize = TextAutoSize.StepBased(
-                    minFontSize = 6.sp,
-                    maxFontSize = 18.sp,
-                    stepSize = 1.sp
+                    minFontSize = 4.sp,
+                    maxFontSize = 36.sp,
+                    stepSize = 0.2.sp
                 ),
                 style = TextStyle(
                     color = colorResource(id = R.color.matisse_check_box_text_color),

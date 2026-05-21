@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.matisse.android.application)
-    alias(libs.plugins.matisse.android.compose)
+    alias(libs.plugins.app.android.application)
+    alias(libs.plugins.app.android.compose)
 }
 
 android {
@@ -14,10 +14,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.material3)
     implementation(libs.coil.compose)
     implementation(libs.coil.gif)
     implementation(libs.coil.video)

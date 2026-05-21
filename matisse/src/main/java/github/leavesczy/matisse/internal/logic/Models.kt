@@ -43,12 +43,10 @@ internal data class MatisseMediaSelectState(
     val positionIndex: Int
 ) {
 
-    val positionFormatted = run {
-        if (positionIndex >= 0) {
-            (positionIndex + 1).toString()
-        } else {
-            null
-        }
+    val positionFormatted = if (positionIndex >= 0) {
+        (positionIndex + 1).toString()
+    } else {
+        null
     }
 
 }
@@ -71,20 +69,18 @@ internal data class MatisseMediaBucketInfo(
 
 @Stable
 internal data class MatisseBottomBarViewState(
-    val previewButtonText: String,
+    val selectedImageSize: Int,
+    val maxSelectable: Int,
     val previewButtonClickable: Boolean,
-    val onClickPreviewButton: () -> Unit,
-    val sureButtonText: String,
-    val sureButtonClickable: Boolean
+    val onClickPreviewButton: () -> Unit
 )
 
 @Stable
 internal data class MatissePreviewPageViewState(
     val visible: Boolean,
     val initialPage: Int,
+    val selectedImageSize: Int,
     val maxSelectable: Int,
-    val sureButtonText: String,
-    val sureButtonClickable: Boolean,
     val previewResources: List<MatisseMediaExtend>,
     val onMediaCheckChanged: (MatisseMediaExtend) -> Unit,
     val onDismissRequest: () -> Unit

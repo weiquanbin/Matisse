@@ -2,41 +2,48 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     `kotlin-dsl`
-    `maven-publish`
-    signing
 }
 
-group = "github.leavesczy.matisse.build.logic"
+group = "github.leavesczy.matisse.buildlogic"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 kotlin {
     compilerOptions {
-        jvmTarget = JvmTarget.JVM_11
+        jvmTarget = JvmTarget.JVM_17
     }
 }
 
 dependencies {
-    implementation(libs.android.gradle)
-    implementation(libs.kotlin.gradle)
+    compileOnly(libs.android.gradle)
+    compileOnly(libs.kotlin.gradle)
+    compileOnly(libs.maven.publish.gradle)
 }
 
 gradlePlugin {
     plugins {
         register("androidApplication") {
-            id = "matisse.android.application"
+            id = libs.plugins.app.android.application.get().pluginId
             implementationClass = "ApplicationConventionPlugin"
         }
         register("androidLibrary") {
-            id = "matisse.android.library"
+            id = libs.plugins.app.android.library.get().pluginId
             implementationClass = "LibraryConventionPlugin"
         }
         register("androidCompose") {
-            id = "matisse.android.compose"
+            id = libs.plugins.app.android.compose.get().pluginId
             implementationClass = "ComposeConventionPlugin"
+        }
+        register("kotlinParcelize") {
+            id = libs.plugins.app.kotlin.parcelize.get().pluginId
+            implementationClass = "ParcelizeConventionPlugin"
+        }
+        register("libraryPublish") {
+            id = libs.plugins.app.library.publish.get().pluginId
+            implementationClass = "AndroidLibraryPublishConventionPlugin"
         }
     }
 }

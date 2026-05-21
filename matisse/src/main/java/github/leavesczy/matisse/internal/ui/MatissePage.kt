@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridItemScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -27,7 +28,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -64,7 +64,7 @@ internal fun MatissePage(
         topBar = {
             MatisseTopBar(
                 modifier = Modifier,
-                title = pageViewState.selectedBucket.bucketName,
+                bucketName = pageViewState.selectedBucket.bucketName,
                 mediaBucketsInfo = pageViewState.mediaBucketsInfo,
                 onClickBucket = pageViewState.onClickBucket,
                 imageEngine = pageViewState.imageEngine
@@ -88,14 +88,7 @@ internal fun MatissePage(
             columns = GridCells.Fixed(count = pageViewState.gridColumns),
             horizontalArrangement = Arrangement.spacedBy(space = 1.dp),
             verticalArrangement = Arrangement.spacedBy(space = 1.dp),
-            contentPadding = PaddingValues(
-                top = 1.dp,
-                bottom = if (pageViewState.fastSelect) {
-                    16.dp
-                } else {
-                    1.dp
-                }
-            )
+            contentPadding = PaddingValues(bottom = 20.dp)
         ) {
             if (pageViewState.selectedBucket.supportCapture) {
                 item(
@@ -194,22 +187,14 @@ private fun MediaItem(
                     .fillMaxSize(fraction = 0.24f)
             )
         }
-        val scrimColor by animateColorAsState(
-            targetValue = if (mediaResource.selectState.value.isSelected) {
-                colorResource(id = R.color.matisse_media_item_scrim_color_when_selected)
-            } else {
-                colorResource(id = R.color.matisse_media_item_scrim_color_when_unselected)
-            }
-        )
-        Spacer(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = scrimColor)
+        MediaItemScrimColor(
+            modifier = Modifier,
+            isSelected = mediaResource.selectState.value.isSelected
         )
         Box(
             modifier = Modifier
                 .align(alignment = Alignment.TopEnd)
-                .fillMaxSize(fraction = 0.33f)
+                .fillMaxSize(fraction = 0.28f)
                 .clickableNoRipple {
                     onClickCheckBox(mediaResource)
                 },
@@ -229,7 +214,7 @@ private fun MediaItem(
             } else {
                 MatisseCheckbox(
                     modifier = Modifier
-                        .fillMaxSize(fraction = 0.68f),
+                        .fillMaxSize(fraction = 0.83f),
                     selectState = mediaResource.selectState.value,
                     onClick = {
                         onClickCheckBox(mediaResource)
@@ -238,6 +223,26 @@ private fun MediaItem(
             }
         }
     }
+}
+
+@Composable
+private fun MediaItemScrimColor(
+    modifier: Modifier,
+    isSelected: Boolean
+) {
+    Spacer(
+        modifier = modifier
+            .fillMaxSize()
+            .background(
+                color = colorResource(
+                    id = if (isSelected) {
+                        R.color.matisse_media_item_scrim_color_when_selected
+                    } else {
+                        R.color.matisse_media_item_scrim_color_when_unselected
+                    }
+                )
+            )
+    )
 }
 
 @Composable

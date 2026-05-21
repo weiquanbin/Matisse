@@ -85,12 +85,7 @@ internal fun MatissePreviewPage(
         Scaffold(
             modifier = Modifier
                 .fillMaxSize(),
-            contentWindowInsets = WindowInsets(
-                left = 0.dp,
-                right = 0.dp,
-                top = 0.dp,
-                bottom = 0.dp
-            ),
+            contentWindowInsets = WindowInsets(),
             containerColor = colorResource(id = R.color.matisse_preview_page_background_color)
         ) { paddingValues ->
             Column(
@@ -103,7 +98,6 @@ internal fun MatissePreviewPage(
                         .fillMaxWidth()
                         .weight(weight = 1f),
                     state = pagerState,
-                    verticalAlignment = Alignment.CenterVertically,
                     key = { index ->
                         pageViewState.previewResources[index].mediaId
                     }
@@ -214,17 +208,19 @@ private fun BottomController(
         MatisseCheckbox(
             modifier = Modifier
                 .align(alignment = Alignment.Center)
-                .size(size = 24.dp),
+                .size(size = 27.dp),
             selectState = currentResource.selectState.value,
             onClick = {
                 pageViewState.onMediaCheckChanged(currentResource)
             }
         )
+        val sureButtonClickable =
+            pageViewState.selectedImageSize > 0 && pageViewState.selectedImageSize <= pageViewState.maxSelectable
         Text(
             modifier = Modifier
                 .align(alignment = Alignment.CenterEnd)
                 .then(
-                    other = if (pageViewState.sureButtonClickable) {
+                    other = if (sureButtonClickable) {
                         Modifier
                             .clip(shape = CircleShape)
                             .clickable(onClick = onClickSure)
@@ -233,12 +229,16 @@ private fun BottomController(
                     }
                 )
                 .padding(horizontal = 20.dp, vertical = 6.dp),
-            text = pageViewState.sureButtonText,
+            text = stringResource(
+                id = R.string.matisse_sure,
+                pageViewState.selectedImageSize,
+                pageViewState.maxSelectable
+            ),
             fontSize = 16.sp,
             fontStyle = FontStyle.Normal,
             fontWeight = FontWeight.Normal,
             color = colorResource(
-                id = if (pageViewState.sureButtonClickable) {
+                id = if (sureButtonClickable) {
                     R.color.matisse_preview_page_sure_text_color
                 } else {
                     R.color.matisse_preview_page_sure_text_color_if_disable
