@@ -40,7 +40,7 @@ publishing {
         create<MavenPublication>("release") {
             groupId = "com.yishi"
             artifactId = "matisse"
-            version = "0.0.14.4"
+            version = "0.0.14.5"
             afterEvaluate {
                 from(components["release"])
             }

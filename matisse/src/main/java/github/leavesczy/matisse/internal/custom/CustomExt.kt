@@ -56,6 +56,7 @@ fun requestReadMediaPermissionCustom(
 
 fun checkPermissionResultCustom(
     context: Context,
+    mediaType: MediaType, // 🌟 资深架构师注入：多媒体类型，实现细粒度精确判定！
     api14Permission: String = "14",
     api13Permission: String = "13",
     api12Permission: String = "12",
@@ -67,13 +68,10 @@ fun checkPermissionResultCustom(
     permissions: Array<String>,
     onRequestDenied: () -> Unit
 ) : String {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
-        && (ContextCompat.checkSelfPermission(context, READ_MEDIA_IMAGES) == PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(
-            context,
-            READ_MEDIA_VIDEO
-        ) == PERMISSION_GRANTED)
-    ) {
+    val hasImagePermission = !mediaType.hasImage || ContextCompat.checkSelfPermission(context, READ_MEDIA_IMAGES) == PERMISSION_GRANTED
+    val hasVideoPermission = !mediaType.hasVideo || ContextCompat.checkSelfPermission(context, READ_MEDIA_VIDEO) == PERMISSION_GRANTED
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && hasImagePermission && hasVideoPermission) {
         // Android 13及以上完整照片和视频访问权限
         onPermissionAllow.invoke()
         return api13Permission
@@ -148,17 +146,16 @@ private val MediaType.hasVideo: Boolean
 
 fun checkPermissionCustom(
     context: Context,
+    mediaType: MediaType, // 🌟 资深架构师注入：多媒体类型，实现细粒度精确判定！
     api14Permission: String = "14",
     api13Permission: String = "13",
     api12Permission: String = "12",
     apiDenied: String = "denied",
 ): String {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
-        && (ContextCompat.checkSelfPermission(context, READ_MEDIA_IMAGES) == PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(
-            context, READ_MEDIA_VIDEO
-        ) == PERMISSION_GRANTED)
-    ) {
+    val hasImagePermission = !mediaType.hasImage || ContextCompat.checkSelfPermission(context, READ_MEDIA_IMAGES) == PERMISSION_GRANTED
+    val hasVideoPermission = !mediaType.hasVideo || ContextCompat.checkSelfPermission(context, READ_MEDIA_VIDEO) == PERMISSION_GRANTED
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && hasImagePermission && hasVideoPermission) {
         // Android 13及以上完整照片和视频访问权限
         return api13Permission
     } else if (

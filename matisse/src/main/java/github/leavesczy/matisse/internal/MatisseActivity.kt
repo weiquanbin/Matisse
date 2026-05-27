@@ -59,7 +59,7 @@ internal class MatisseActivity : BaseCaptureActivity() {
             }
             showPermissionDialog.value = false
             matisseViewModel.requestReadMediaPermissionResult(granted = result.any { it.value })
-            permissionState.value = checkPermissionCustom(this)
+            permissionState.value = checkPermissionCustom(context = this, mediaType = matisseViewModel.mediaType)
         }
 
     private val matisseViewModel by viewModels<MatisseViewModel>(factoryProducer = {
@@ -95,7 +95,7 @@ internal class MatisseActivity : BaseCaptureActivity() {
                 onResult = { result ->
                     // 用户已从设置界面返回
                     // 在这里处理返回事件
-                    permissionState.value = checkPermissionCustom(context)
+                    permissionState.value = checkPermissionCustom(context = context, mediaType = matisseViewModel.mediaType)
                     requestReadMediaPermissionCustom()
                 }
             )
@@ -157,6 +157,7 @@ internal class MatisseActivity : BaseCaptureActivity() {
             checkPermissionResult = { permissions: Array<String> ->
                 permissionState.value = checkPermissionResultCustom(
                     context = this,
+                    mediaType = matisseViewModel.mediaType,
                     requestReadMediaPermissionLauncher = requestReadMediaPermissionLauncher,
                     onPermissionAllow = {
                         matisseViewModel.requestReadMediaPermissionResult(
