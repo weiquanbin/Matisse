@@ -199,7 +199,7 @@ internal class MatisseViewModel(application: Application, matisse: Matisse) :
                 context = context,
                 mediaType = mediaType
             )
-            if (resourcesInfo.isNullOrEmpty()) {
+            val list = if (resourcesInfo.isNullOrEmpty()) {
                 emptyList()
             } else {
                 resourcesInfo.mapNotNull {
@@ -223,6 +223,26 @@ internal class MatisseViewModel(application: Application, matisse: Matisse) :
                     }
                 }
             }
+            // ==================== [CUSTOM START] ====================
+            // Description: 如果外部配置了示例图，则将其作为默认相册下的第一张图片（ID = -999L）强行塞入列表头部
+            val customItem = github.leavesczy.matisse.Matisse.customFirstItem
+            if (customItem != null) {
+                buildList {
+                    add(
+                        element = MatisseMediaExtend(
+                            mediaId = -999L,
+                            bucketId = defaultBucketId,
+                            bucketName = getString(id = R.string.matisse_default_bucket_name),
+                            media = customItem,
+                            selectState = androidx.compose.runtime.mutableStateOf(value = unselectedEnabledMediaSelectState)
+                        )
+                    )
+                    addAll(elements = list)
+                }
+            } else {
+                list
+            }
+            // ==================== [CUSTOM END] ====================
         }
     }
 

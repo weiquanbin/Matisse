@@ -9,6 +9,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -83,6 +84,7 @@ internal class MatisseActivity : BaseCaptureActivity() {
         get() = requireNotNull(value = matisseViewModel.captureStrategy)
 
 
+    @RequiresApi(Build.VERSION_CODES.DONUT)
     override fun onCreate(savedInstanceState: Bundle?) {
         setSystemBarUi(previewPageVisible = false)
         super.onCreate(savedInstanceState)
@@ -150,6 +152,7 @@ internal class MatisseActivity : BaseCaptureActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.DONUT)
     private fun requestReadMediaPermissionCustom() {
         requestReadMediaPermissionCustom(
             matisseViewModel.mediaType,
@@ -255,6 +258,7 @@ internal class MatisseActivity : BaseCaptureActivity() {
         finish()
     }
 
+    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     private fun setSystemBarUi(previewPageVisible: Boolean) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         WindowInsetsControllerCompat(window, window.decorView).apply {
@@ -278,6 +282,15 @@ internal class MatisseActivity : BaseCaptureActivity() {
             isAppearanceLightStatusBars = statusBarDarkIcons
             isAppearanceLightNavigationBars = navigationBarDarkIcons
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // ==================== [CUSTOM START] ====================
+        // Description: 页面销毁时物理断开 customFirstItem 静态插槽引用，防止发生宿主泄露
+        Matisse.customFirstItem = null
+        Matisse.customFirstItemBadge = null
+        // ==================== [CUSTOM END] ====================
     }
 
 }

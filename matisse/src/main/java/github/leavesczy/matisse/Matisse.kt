@@ -2,6 +2,8 @@ package github.leavesczy.matisse
 
 import android.net.Uri
 import android.os.Parcelable
+import androidx.compose.foundation.lazy.grid.LazyGridItemScope
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import kotlinx.parcelize.Parcelize
 
@@ -44,6 +46,14 @@ data class Matisse(
             throw IllegalArgumentException("gridColumns should be larger than zero")
         }
     }
+
+    // ==================== [CUSTOM START] ====================
+    // Description: 挂载示例图数据及自定前景 UI 的静态插槽变量
+    companion object {
+        var customFirstItem: MediaResource? = null
+        var customFirstItemBadge: (@Composable androidx.compose.foundation.layout.BoxScope.() -> Unit)? = null
+    }
+    // ==================== [CUSTOM END] ====================
 
 }
 

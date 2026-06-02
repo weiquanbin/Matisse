@@ -39,6 +39,10 @@ import github.leavesczy.matisse.R
 import github.leavesczy.matisse.internal.logic.MatisseBottomBarViewState
 import github.leavesczy.matisse.internal.logic.MatisseMediaExtend
 import github.leavesczy.matisse.internal.logic.MatissePageViewState
+// ==================== [CUSTOM START] ====================
+// Description: 导入您专有的自定义扩展函数包
+import github.leavesczy.matisse.internal.custom.isExample
+// ==================== [CUSTOM END] ====================
 
 /**
  * @Author: leavesCZY
@@ -99,6 +103,7 @@ internal fun MatissePage(
                     )
                 }
             }
+
             items(
                 items = pageViewState.selectedBucket.resources,
                 key = {
@@ -219,6 +224,14 @@ private fun MediaItem(
                 )
             }
         }
+        // ==================== [CUSTOM START] ====================
+        // Description: 若是外部传入的示例图资源，在此处叠加渲染外部注入的自定义徽章
+        if (mediaResource.media.isExample) {
+            github.leavesczy.matisse.Matisse.customFirstItemBadge?.let { badge ->
+                badge()
+            }
+        }
+        // ==================== [CUSTOM END] ====================
     }
 }
 
@@ -264,6 +277,14 @@ private fun MediaItemFastSelect(
                     .fillMaxSize(fraction = 0.24f)
             )
         }
+        // ==================== [CUSTOM START] ====================
+        // Description: 若是外部传入的示例图资源，在此处叠加渲染外部注入的自定义徽章
+        if (mediaResource.isExample) {
+            github.leavesczy.matisse.Matisse.customFirstItemBadge?.let { badge ->
+                badge()
+            }
+        }
+        // ==================== [CUSTOM END] ====================
     }
 }
 
