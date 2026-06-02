@@ -15,6 +15,7 @@ import androidx.lifecycle.viewModelScope
 import github.leavesczy.matisse.Matisse
 import github.leavesczy.matisse.MediaResource
 import github.leavesczy.matisse.R
+import github.leavesczy.matisse.internal.custom.MatisseCustom
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -225,7 +226,7 @@ internal class MatisseViewModel(application: Application, matisse: Matisse) :
             }
             // ==================== [CUSTOM START] ====================
             // Description: 如果外部配置了示例图，则将其作为默认相册下的第一张图片（ID = -999L）强行塞入列表头部
-            val customItem = github.leavesczy.matisse.Matisse.customFirstItem
+            val customItem = MatisseCustom.customFirstItem
             if (customItem != null) {
                 buildList {
                     add(
@@ -233,8 +234,8 @@ internal class MatisseViewModel(application: Application, matisse: Matisse) :
                             mediaId = -999L,
                             bucketId = defaultBucketId,
                             bucketName = getString(id = R.string.matisse_default_bucket_name),
-                            media = customItem,
-                            selectState = androidx.compose.runtime.mutableStateOf(value = unselectedEnabledMediaSelectState)
+                            media = customItem.copy(isExample = true),
+                            selectState = mutableStateOf(value = unselectedEnabledMediaSelectState)
                         )
                     )
                     addAll(elements = list)

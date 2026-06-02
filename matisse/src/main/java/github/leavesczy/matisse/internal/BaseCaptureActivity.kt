@@ -30,7 +30,11 @@ import kotlinx.coroutines.withContext
 internal abstract class BaseCaptureActivity : AppCompatActivity() {
 
     protected abstract val captureStrategy: CaptureStrategy
+    // ==================== [CUSTOM START] ====================
+    // Description: 控制自定拍照相机申请提示框是否展示的 State 变量
     val showCameraPermissionDialog: MutableState<Boolean> = mutableStateOf(false)
+    // ==================== [CUSTOM END] ====================
+
 
     private val requestWriteExternalStoragePermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -44,7 +48,10 @@ internal abstract class BaseCaptureActivity : AppCompatActivity() {
 
     private val requestCameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            // ==================== [CUSTOM START] ====================
+            // Description: 权限请求回调，隐藏自定义相机提示弹窗
             showCameraPermissionDialog.value = false
+            // ==================== [CUSTOM END] ====================
             if (granted) {
                 takePicture()
             } else {
@@ -79,7 +86,10 @@ internal abstract class BaseCaptureActivity : AppCompatActivity() {
                 permission = cameraPermission
             )
             if (requirePermissionToTakePhotos) {
+                // ==================== [CUSTOM START] ====================
+                // Description: 触发相机权限请求前，展示自定义的说明对话框
                 showCameraPermissionDialog.value = true
+                // ==================== [CUSTOM END] ====================
                 requestCameraPermissionLauncher.launch(cameraPermission)
             } else {
                 takePicture()

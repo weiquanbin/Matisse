@@ -180,10 +180,3 @@ fun checkPermissionCustom(
         return apiDenied
     }
 }
-
-// ==================== [CUSTOM START] ====================
-// Description: 判断当前媒体资源是否为外部传入的“示例图”
-// 核心原理：本地相册的图片绝对是 content:// 或 /storage/ 开头，只有示例图为 http/https 网络 Url
-val MediaResource.isExample: Boolean
-    get() = path.startsWith(prefix = "http") || path.startsWith(prefix = "https")
-// ==================== [CUSTOM END] ====================

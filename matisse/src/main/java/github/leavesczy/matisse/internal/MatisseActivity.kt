@@ -34,6 +34,7 @@ import github.leavesczy.matisse.internal.custom.SettingsActivityResultContract
 import github.leavesczy.matisse.internal.custom.checkPermissionCustom
 import github.leavesczy.matisse.internal.custom.checkPermissionResultCustom
 import github.leavesczy.matisse.internal.custom.requestReadMediaPermissionCustom
+import github.leavesczy.matisse.internal.custom.MatisseCustom
 // ==================== [CUSTOM END] ====================
 import github.leavesczy.matisse.internal.logic.MatisseViewModel
 import github.leavesczy.matisse.internal.ui.MatisseLoadingDialog
@@ -301,8 +302,8 @@ internal class MatisseActivity : BaseCaptureActivity() {
         super.onDestroy()
         // ==================== [CUSTOM START] ====================
         // Description: 页面销毁时物理断开 customFirstItem 静态插槽引用，防止发生宿主泄露
-        Matisse.customFirstItem = null
-        Matisse.customFirstItemBadge = null
+        MatisseCustom.customFirstItem = null
+        MatisseCustom.customFirstItemBadge = null
         // ==================== [CUSTOM END] ====================
     }
 

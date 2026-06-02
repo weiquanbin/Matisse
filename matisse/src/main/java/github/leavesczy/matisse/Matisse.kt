@@ -47,14 +47,6 @@ data class Matisse(
         }
     }
 
-    // ==================== [CUSTOM START] ====================
-    // Description: 挂载示例图数据及自定前景 UI 的静态插槽变量
-    companion object {
-        var customFirstItem: MediaResource? = null
-        var customFirstItemBadge: (@Composable androidx.compose.foundation.layout.BoxScope.() -> Unit)? = null
-    }
-    // ==================== [CUSTOM END] ====================
-
 }
 
 /**
@@ -135,7 +127,11 @@ data class MediaResource(
     val path: String,
     val name: String,
     val mimeType: String,
-    val size: Long
+    val size: Long,
+    // ==================== [CUSTOM START] ====================
+    // Description: 显式标记当前媒体资源是否为外部注入的“示例图”，完全交由数据契约显式手动传递，杜绝路径誤伤
+    val isExample: Boolean = false
+    // ==================== [CUSTOM END] ====================
 ) : Parcelable {
 
     val isImage: Boolean

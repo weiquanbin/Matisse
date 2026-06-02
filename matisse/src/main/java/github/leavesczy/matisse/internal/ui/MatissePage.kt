@@ -40,8 +40,9 @@ import github.leavesczy.matisse.internal.logic.MatisseBottomBarViewState
 import github.leavesczy.matisse.internal.logic.MatisseMediaExtend
 import github.leavesczy.matisse.internal.logic.MatissePageViewState
 // ==================== [CUSTOM START] ====================
-// Description: 导入您专有的自定义扩展函数包
-import github.leavesczy.matisse.internal.custom.isExample
+// Description: 导入您专有的自定义配置单例与 UI 组件包
+import github.leavesczy.matisse.internal.custom.MatisseCustom
+import github.leavesczy.matisse.internal.custom.MatisseMax1Checkbox
 // ==================== [CUSTOM END] ====================
 
 /**
@@ -227,7 +228,7 @@ private fun MediaItem(
         // ==================== [CUSTOM START] ====================
         // Description: 若是外部传入的示例图资源，在此处叠加渲染外部注入的自定义徽章
         if (mediaResource.media.isExample) {
-            github.leavesczy.matisse.Matisse.customFirstItemBadge?.let { badge ->
+            MatisseCustom.customFirstItemBadge?.let { badge ->
                 badge()
             }
         }
@@ -280,7 +281,7 @@ private fun MediaItemFastSelect(
         // ==================== [CUSTOM START] ====================
         // Description: 若是外部传入的示例图资源，在此处叠加渲染外部注入的自定义徽章
         if (mediaResource.isExample) {
-            github.leavesczy.matisse.Matisse.customFirstItemBadge?.let { badge ->
+            MatisseCustom.customFirstItemBadge?.let { badge ->
                 badge()
             }
         }

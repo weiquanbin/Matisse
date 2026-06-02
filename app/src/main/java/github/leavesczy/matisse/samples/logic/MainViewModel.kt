@@ -3,11 +3,21 @@ package github.leavesczy.matisse.samples.logic
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import github.leavesczy.matisse.CaptureStrategy
 import github.leavesczy.matisse.CoilImageEngine
@@ -15,28 +25,13 @@ import github.leavesczy.matisse.DefaultMediaFilter
 import github.leavesczy.matisse.FileProviderCaptureStrategy
 import github.leavesczy.matisse.GlideImageEngine
 import github.leavesczy.matisse.Matisse
-import github.leavesczy.matisse.Matisse.Companion.customFirstItem
 import github.leavesczy.matisse.MatisseCapture
 import github.leavesczy.matisse.MediaResource
 import github.leavesczy.matisse.MediaStoreCaptureStrategy
 import github.leavesczy.matisse.MediaType
 import github.leavesczy.matisse.SmartCaptureStrategy
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.graphics.Brush
-import coil3.compose.AsyncImage
+import github.leavesczy.matisse.internal.custom.MatisseCustom.customFirstItem
+import github.leavesczy.matisse.internal.custom.MatisseCustom.customFirstItemBadge
 
 /**
  * @Author: leavesCZY
