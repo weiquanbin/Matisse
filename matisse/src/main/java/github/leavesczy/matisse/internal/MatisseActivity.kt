@@ -26,12 +26,15 @@ import github.leavesczy.matisse.CaptureStrategy
 import github.leavesczy.matisse.Matisse
 import github.leavesczy.matisse.MediaResource
 import github.leavesczy.matisse.R
+// ==================== [CUSTOM START] ====================
+// Description: 二次开发高聚敛自定适配文件导入区
 import github.leavesczy.matisse.internal.custom.CameraPermissionShow
 import github.leavesczy.matisse.internal.custom.PermissionAbout
 import github.leavesczy.matisse.internal.custom.SettingsActivityResultContract
 import github.leavesczy.matisse.internal.custom.checkPermissionCustom
 import github.leavesczy.matisse.internal.custom.checkPermissionResultCustom
 import github.leavesczy.matisse.internal.custom.requestReadMediaPermissionCustom
+// ==================== [CUSTOM END] ====================
 import github.leavesczy.matisse.internal.logic.MatisseViewModel
 import github.leavesczy.matisse.internal.ui.MatisseLoadingDialog
 import github.leavesczy.matisse.internal.ui.MatissePage
@@ -50,6 +53,8 @@ import kotlinx.coroutines.isActive
  */
 internal class MatisseActivity : BaseCaptureActivity() {
 
+    // ==================== [CUSTOM START] ====================
+    // Description: 动态细粒度媒体权限申请状态管理
     private val showPermissionDialog: MutableState<Boolean> = mutableStateOf(false)
     private val permissionState: MutableState<String> = mutableStateOf("")
     private var scope = CoroutineScope(Dispatchers.Default)
@@ -62,6 +67,7 @@ internal class MatisseActivity : BaseCaptureActivity() {
             matisseViewModel.requestReadMediaPermissionResult(granted = result.any { it.value })
             permissionState.value = checkPermissionCustom(context = this, mediaType = matisseViewModel.mediaType)
         }
+    // ==================== [CUSTOM END] ====================
 
     private val matisseViewModel by viewModels<MatisseViewModel>(factoryProducer = {
         object : ViewModelProvider.Factory {
@@ -89,9 +95,9 @@ internal class MatisseActivity : BaseCaptureActivity() {
         setSystemBarUi(previewPageVisible = false)
         super.onCreate(savedInstanceState)
         setContent {
+            // ==================== [CUSTOM START] ====================
+            // Description: 注册启动器：用于通过契约拉起 App 的系统详情设置页并监听返回结果
             val context = LocalContext.current
-            // 13,14,12 denied
-            // 使用契约启动设置界面并处理结果
             val launcher = rememberLauncherForActivityResult(
                 contract = SettingsActivityResultContract(),
                 onResult = { result ->
@@ -101,6 +107,7 @@ internal class MatisseActivity : BaseCaptureActivity() {
                     requestReadMediaPermissionCustom()
                 }
             )
+            // ==================== [CUSTOM END] ====================
 
             LaunchedEffect(key1 = Unit) {
                 snapshotFlow {
@@ -117,6 +124,8 @@ internal class MatisseActivity : BaseCaptureActivity() {
                     onRequestTakePicture = ::requestTakePicture,
                     onClickSure = ::onClickSure,
                     selectMediaInFastSelectMode = ::selectMediaInFastSelectMode,
+                    // ==================== [CUSTOM START] ====================
+                    // Description: 自定义插桩：加载细粒度权限请求弹窗及相机权限检查弹窗
                     customContent = { innerPadding ->
                         PermissionAbout(
                             innerPadding = innerPadding,
@@ -137,6 +146,7 @@ internal class MatisseActivity : BaseCaptureActivity() {
                             }
                         )
                     }
+                    // ==================== [CUSTOM END] ====================
                 )
                 MatissePreviewPage(
                     pageViewState = matisseViewModel.previewPageViewState,
@@ -152,6 +162,8 @@ internal class MatisseActivity : BaseCaptureActivity() {
         }
     }
 
+    // ==================== [CUSTOM START] ====================
+    // Description: 自定义细粒度权限检测与请求调度方法
     @RequiresApi(Build.VERSION_CODES.DONUT)
     private fun requestReadMediaPermissionCustom() {
         requestReadMediaPermissionCustom(
@@ -177,6 +189,7 @@ internal class MatisseActivity : BaseCaptureActivity() {
             }
         )
     }
+    // ==================== [CUSTOM END] ====================
 
     private fun requestReadMediaPermission() {
         val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
